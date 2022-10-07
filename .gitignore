@@ -15,3 +15,8 @@ deps
 .rebar3
 _build/
 _checkouts/
+.idea/vcs.xml
+.idea/Gossip-Algorithm.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/workspace.xml
