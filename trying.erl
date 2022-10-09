@@ -33,7 +33,7 @@ master_process()->
     receive
         {actorList, {L}} ->
             io:fwrite("List of Actors: ~p~n", [L]),
-            lists:nth(1, L) ! {message, {"Gossip Message"}};
+            lists:nth(1, L) ! {message, {"Gossip Message", L}};
 
         {AID, {Message, Counter}} ->
             io:format("Actor ID: ~p Output: ~p  ~p~n", [AID, Message, Counter]),
@@ -41,8 +41,16 @@ master_process()->
     end.
 
 actor_process(MID) ->
+    RecievedList = [],
     receive
-        {message, {Message}} ->
-            io:format("Actor ID: ~p Output: ~p  ~p~n", [self(), Message, MID]),
-            actor_process(MID)
+        {message, {Message}, L} ->
+            lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, L}},
+            addtoList,
+            case tail_len(L) > 10 of
+                true ->
+                    MID ! {self(), {Message, tail_len(L)}};
+                false ->
+                   done
+            end
     end.
+
