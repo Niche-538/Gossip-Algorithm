@@ -18,12 +18,12 @@ start(Num) ->
     io:fwrite("Len of List: ~p~n", [tail_len(L)]).
 
 while(N) ->
-    while(0, N, []).
+    while(N, []).
 
-while(N, N, L) ->
+while(0, L) ->
     reverse(L);
-while(S, N, L) ->
-    while(S + 1, N, [spawn(fun() -> actor_call() end) | L]).
+while(N, L) ->
+    while(N - 1, [spawn(fun() -> actor_call() end) | L]).
 
 actor_call() ->
     io:fwrite("").
