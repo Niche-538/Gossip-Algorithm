@@ -13,12 +13,15 @@ main_process(NumNodes, Topology, Algorithm) ->
     end.
 
 start(Num) ->
-    L = while(Num),
-    io:fwrite("List of Actors: ~p~n", [L]),
-    io:fwrite("Len of List: ~p~n", [tail_len(L)]).
+    L = while(s, Num, []),
+    % io:fwrite("List of Actors: ~p~n", [L]),
+    io:fwrite("Len of List: ~p~n", [tail_len(L)]),
+    % M = while(s, 2, L),
+    % io:fwrite("List of Actors: ~p~n", [M]),
+    counter_attempt().
 
-while(N) ->
-    while(N, []).
+while(s, N, Li) ->
+    while(N, Li).
 
 while(0, L) ->
     reverse(L);
@@ -31,3 +34,14 @@ actor_call() ->
 tail_len(L) -> tail_len(L, 0).
 tail_len([], Acc) -> Acc;
 tail_len([_ | T], Acc) -> tail_len(T, Acc + 1).
+
+counter_attempt() ->
+    MCR = counters:new(1, [atomics]),
+    counters:add(MCR, 1, 1),
+    % X = counters:get(MCR, 1),
+    counters:add(MCR, 1, 1),
+    V = counters:get(MCR, 1),
+    % persistent_term:put(my_counter_ref, MCR),
+    % counters:add(persistent_term:get(my_counter_ref), 1, 9),
+    % V = counters:get(persistent_term:get(my_counter_ref), 1),
+    io:fwrite("Counter Var: ~p~n", [V]).
