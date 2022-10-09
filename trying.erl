@@ -1,23 +1,48 @@
 -module(trying).
--import(lists, [append/2, reverse/1]).
 -export([start/1]).
-
-start(Num) ->
-    L = while(Num),
-    io:fwrite("L ala ka?: ~p~n", [L]),
-    io:fwrite("L chi len: ~p~n", [tail_len(L)]).
-
-while(N) ->
-    while(0, N, []).
-
-while(N, N, L) ->
-    reverse(L);
-while(S, N, L) ->
-    while(S + 1, N, [spawn(fun() -> actor_call() end) | L]).
-
-actor_call() ->
-    io:fwrite("").
+-import(lists, [append/2, reverse/1]).
+-import(gossip, [gossip/2]).
+-import(push_sum, [push_sum/2]).
 
 tail_len(L) -> tail_len(L, 0).
 tail_len([], Acc) -> Acc;
 tail_len([_ | T], Acc) -> tail_len(T, Acc + 1).
+
+generateActors(N,MID) ->
+    generateActors(N, [], MID).
+
+generateActors(0, L, _) ->
+    reverse(L);
+
+generateActors(N, L, MID) ->
+    generateActors(N - 1, [spawn(fun() -> actor_process(MID) end) | L], MID).
+
+start(NumNodes) ->
+    %create a masterActor
+    MID = spawn(fun() -> master_process() end),
+
+    %create actors List
+    L = generateActors(NumNodes, MID),
+
+    %send List to Master
+    MID ! {actorList, {L}},
+
+    io:fwrite("Len of List: ~p~n", [tail_len(L)]).
+
+master_process()->
+    receive
+        {actorList, {L}} ->
+            io:fwrite("List of Actors: ~p~n", [L]),
+            lists:nth(1, L) ! {message, {"Gossip Message"}};
+
+        {AID, {Message, Counter}} ->
+            io:format("Actor ID: ~p Output: ~p  ~p~n", [AID, Message, Counter]),
+            master_process()
+    end.
+
+actor_process(MID) ->
+    receive
+        {message, {Message}} ->
+            io:format("Actor ID: ~p Output: ~p  ~p~n", [self(), Message, MID]),
+            actor_process(MID)
+    end.
