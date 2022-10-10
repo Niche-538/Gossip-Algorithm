@@ -1,5 +1,5 @@
 -module(gossip).
--export([start_gossip_Algorithm/2]).
+-export([start/2]).
 -import(lists, [append/2, reverse/1]).
 
 tail_len(L) -> tail_len(L, 0).
@@ -16,7 +16,7 @@ generateActors(N, L, MID) ->
         N - 1, [spawn(fun() -> actor_process(MID, counters:new(1, [atomics])) end) | L], MID
     ).
 
-start_gossip_Algorithm(NumNodes, Topology) ->
+start(NumNodes, Topology) ->
     T = erlang:timestamp(),
     io:format("Start Gossip Time: ~p~n", [T]),
 
@@ -52,9 +52,14 @@ actor_process(MID, MCR) ->
                 true ->
                     PID = self(),
                     case Topology of
-                        "Full" -> spawn(fun() -> full_network(Message, L, PID, Akda, Topology) end);
-                        "Line" -> spawn(fun() -> line_network(Message, L, PID, Akda, Topology) end);
-                        "2D" -> spawn(fun() -> grid_2d(Message, L, PID, Akda, Topology) end)
+                        "Full" ->
+                            spawn(fun() -> full_network(Message, L, PID, Akda, Topology) end);
+                        "Line" ->
+                            spawn(fun() -> line_network(Message, L, PID, Akda, Topology) end);
+                        "2D" ->
+                            spawn(fun() -> grid_2d(Message, L, PID, Akda, Topology) end);
+                        "imperfect 3D" ->
+                            spawn(fun() -> grid_2d(Message, L, PID, Akda, Topology) end)
                     end;
                 false ->
                     nothing
@@ -65,9 +70,14 @@ actor_process(MID, MCR) ->
                 true ->
                     PID = self(),
                     case Topology of
-                        "Full" -> spawn(fun() -> full_network(Message, L, PID, Akda, Topology) end);
-                        "Line" -> spawn(fun() -> line_network(Message, L, PID, Akda, Topology) end);
-                        "2D" -> spawn(fun() -> grid_2d(Message, L, PID, Akda, Topology) end)
+                        "Full" ->
+                            spawn(fun() -> full_network(Message, L, PID, Akda, Topology) end);
+                        "Line" ->
+                            spawn(fun() -> line_network(Message, L, PID, Akda, Topology) end);
+                        "2D" ->
+                            spawn(fun() -> grid_2d(Message, L, PID, Akda, Topology) end);
+                        "imperfect 3D" ->
+                            spawn(fun() -> imperfect_3d(Message, L, PID, Akda, Topology) end)
                     end;
                 false ->
                     nothing
@@ -112,17 +122,73 @@ grid_2d(Message, L, RAID, Akda, Topology) ->
     case Akda rem 4 of
         0 ->
             Neighbor_IDs = [X || X <- [Up, Down, Left], X > 0, X < LenL + 1],
-            grid_2d_xtra(L, Neighbor_IDs, Message, RAID, Topology);
+            grids_xtra(L, Neighbor_IDs, Message, RAID, Topology);
         1 ->
             Neighbor_IDs = [X || X <- [Up, Down, Right], X > 0, X < LenL + 1],
-            grid_2d_xtra(L, Neighbor_IDs, Message, RAID, Topology);
+            grids_xtra(L, Neighbor_IDs, Message, RAID, Topology);
         _ ->
             Neighbor_IDs = [X || X <- [Up, Down, Left, Right], X > 0, X < LenL + 1],
-            grid_2d_xtra(L, Neighbor_IDs, Message, RAID, Topology)
+            grids_xtra(L, Neighbor_IDs, Message, RAID, Topology)
     end,
     grid_2d(Message, L, RAID, Akda, Topology).
 
-grid_2d_xtra(L, NL, Message, RAID, Topology) ->
+grids_xtra(L, NL, Message, RAID, Topology) ->
     Chosen_ID = lists:nth(rand:uniform(tail_len(NL)), NL),
     Chosen_Nebur = lists:nth(Chosen_ID, L),
     Chosen_Nebur ! {message, {Message, RAID, L, Chosen_ID, Topology}}.
+
+imperfect_3d(Message, L, RAID, Akda, Topology) ->
+    LenL = tail_len(L),
+    Up = Akda - 4,
+    Down = Akda + 4,
+    Left = Akda - 1,
+    Right = Akda + 1,
+    D_UL = Akda - 5,
+    D_UR = Akda - 3,
+    D_DL = Akda + 3,
+    D_DR = Akda + 5,
+    case Akda rem 4 of
+        0 ->
+            Neighbor_IDs1 = [
+                X
+             || X <- [Up, Down, Left, D_UL, D_DL], X > 0, X < LenL + 1
+            ],
+            Extra_N1 = [
+                Y
+             || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs1) == false
+            ],
+            % rand:seed(builtin_alg(), {Akda}),
+            RN1 = rand:uniform(tail_len(Extra_N1)),
+            Extra_Neighbor1 = [lists:nth(RN1, Extra_N1)],
+            NewNeighborList1 = Neighbor_IDs1 ++ Extra_Neighbor1,
+            grids_xtra(L, NewNeighborList1, Message, RAID, Topology);
+        1 ->
+            Neighbor_IDs2 = [
+                X
+             || X <- [Up, Down, Right, D_UR, D_DR], X > 0, X < LenL + 1
+            ],
+            Extra_N2 = [
+                Y
+             || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs2) == false
+            ],
+            % rand:seed(Akda),
+            RN2 = rand:uniform(tail_len(Extra_N2)),
+            Extra_Neighbor2 = [lists:nth(RN2, Extra_N2)],
+            NewNeighborList2 = Neighbor_IDs2 ++ Extra_Neighbor2,
+            grids_xtra(L, NewNeighborList2, Message, RAID, Topology);
+        _ ->
+            Neighbor_IDs3 = [
+                X
+             || X <- [Up, Down, Left, Right, D_UL, D_UR, D_DL, D_DR], X > 0, X < LenL + 1
+            ],
+            Extra_N3 = [
+                Y
+             || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs3) == false
+            ],
+            % rand:seed(Akda),
+            RN3 = rand:uniform(tail_len(Extra_N3)),
+            Extra_Neighbor3 = [lists:nth(RN3, Extra_N3)],
+            NewNeighborList3 = Neighbor_IDs3 ++ Extra_Neighbor3,
+            grids_xtra(L, NewNeighborList3, Message, RAID, Topology)
+    end,
+    imperfect_3d(Message, L, RAID, Akda, Topology).
