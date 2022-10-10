@@ -50,7 +50,7 @@ actor_process(MID, MCR) ->
             case counters:get(MCR, 1) == 1 of
                 true ->
                     PID = self(),
-                    spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> full_network(Message, L, PID) end);
                 false ->
                     nothing
             end;
@@ -59,7 +59,7 @@ actor_process(MID, MCR) ->
             case counters:get(MCR, 1) == 1 of
                 true ->
                     PID = self(),
-                    spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> full_network(Message, L, PID) end);
                 false ->
                     nothing
             end,
@@ -72,6 +72,6 @@ actor_process(MID, MCR) ->
             actor_process(MID, MCR)
     end.
 
-start_gossip(Message, L, RAID) ->
+full_network(Message, L, RAID) ->
     lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID, L}},
-    start_gossip(Message, L, RAID).
+    full_network(Message, L, RAID).
