@@ -32,7 +32,6 @@ master_process() ->
     receive
         {actorList, {L}} ->
             Akda = rand:uniform(tail_len(L)),
-            io:fwrite("Chosen Starting Actor: ~p~n", [lists:nth(Akda, L)]),
             % Akda = 1,
             lists:nth(Akda, L) !
                 {message, {firstMessage, "Gossip Message", L, Akda}},
