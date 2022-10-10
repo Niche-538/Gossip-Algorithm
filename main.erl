@@ -62,7 +62,7 @@ actor_process(MID, MCR) ->
                 false ->
                     nothing
             end,
-            case counters:get(MCR, 1) == 100 of
+            case counters:get(MCR, 1) == 10 of
                 true ->
                     MID ! {self(), RAID, Message};
                 false ->
@@ -77,13 +77,13 @@ actor_process(MID, MCR) ->
 
 line_network(Message, L, RAID, Akda) ->
     LLen = tail_len(L),
-    io:format("Recieved Id in Network: ~p~n", [RAID]),
     % ID = rand:uniform(LLen),
     case Akda == 1 of
         true ->
             % Chosen_N = lists:nth(2, L),
             % io:format("Curr ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
-            lists:nth(2, L) ! {message, {Message, RAID, L, 2}};
+            lists:nth(2, L) ! {message, {Message, RAID, L, 2}},
+            line_network(Message, L, RAID, 2);
         false ->
             nothing
     end,
@@ -91,7 +91,8 @@ line_network(Message, L, RAID, Akda) ->
     case Akda == LLen of
         true ->
             Nid = LLen - 1,
-            lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}};
+            lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}},
+            line_network(Message, L, RAID, Nid);
         false ->
             nothing
     end,
@@ -101,8 +102,8 @@ line_network(Message, L, RAID, Akda) ->
             Neighbors_Index = [Akda - 1, Akda + 1],
             Chosen_Index = lists:nth(rand:uniform(2), Neighbors_Index),
             Chosen_Neighbor = lists:nth(Chosen_Index, L),
-            Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}};
+            Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}},
+            line_network(Message, L, RAID, Chosen_Index);
         false ->
             nothing
     end.
-% line_network(Message, L, RAID).
