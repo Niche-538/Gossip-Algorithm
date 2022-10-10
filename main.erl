@@ -32,6 +32,7 @@ master_process() ->
     receive
         {actorList, {L}} ->
             Akda = rand:uniform(tail_len(L)),
+            io:fwrite("Chosen Starting Actor: ~p~n", [lists:nth(Akda, L)]),
             % Akda = 1,
             lists:nth(Akda, L) !
                 {message, {firstMessage, "Gossip Message", L, Akda}},
@@ -79,33 +80,48 @@ actor_process(MID, MCR) ->
 line_network(Message, L, RAID, Akda) ->
     LLen = tail_len(L),
     % ID = rand:uniform(LLen),
-    case Akda == 1 of
-        true ->
-            % Chosen_N = lists:nth(2, L),
-            % io:format("Curr ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
-            % NewRAID =
+    % case Akda == 1 of
+    %     true ->
+    %         % Chosen_N = lists:nth(2, L),
+    %         % io:format("Curr ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
+    %         % NewRAID =
+    %         lists:nth(2, L) ! {message, {Message, RAID, L, 2}},
+    %         line_network(Message, L, RAID, Akda);
+    %     false ->
+    %         nothing
+    % end,
+
+    % case Akda == LLen of
+    %     true ->
+    %         Nid = LLen - 1,
+    %         lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}},
+    %         line_network(Message, L, RAID, Akda);
+    %     false ->
+    %         nothing
+    % end,
+
+    % case (Akda > 1) and (Akda < LLen) of
+    %     true ->
+    %         Neighbors_Index = [Akda - 1, Akda + 1],
+    %         Chosen_Index = lists:nth(rand:uniform(2), Neighbors_Index),
+    %         Chosen_Neighbor = lists:nth(Chosen_Index, L),
+    %         Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}},
+    %         line_network(Message, L, RAID, Akda);
+    %     false ->
+    %         nothing
+    % end,
+    case Akda of
+        1 ->
             lists:nth(2, L) ! {message, {Message, RAID, L, 2}},
             line_network(Message, L, RAID, Akda);
-        false ->
-            nothing
-    end,
-
-    case Akda == LLen of
-        true ->
+        LLen ->
             Nid = LLen - 1,
             lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}},
             line_network(Message, L, RAID, Akda);
-        false ->
-            nothing
-    end,
-
-    case (Akda > 1) and (Akda < LLen) of
-        true ->
+        _ ->
             Neighbors_Index = [Akda - 1, Akda + 1],
             Chosen_Index = lists:nth(rand:uniform(2), Neighbors_Index),
             Chosen_Neighbor = lists:nth(Chosen_Index, L),
             Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}},
-            line_network(Message, L, RAID, Akda);
-        false ->
-            nothing
+            line_network(Message, L, RAID, Akda)
     end.
