@@ -25,35 +25,41 @@ start(NumNodes) ->
     L = generateActors(NumNodes, MID),
 
     %send List to Master
-    MID ! {actorList, {L}},
-
-    io:fwrite("Len of List: ~p~n", [tail_len(L)]).
+    MID ! {actorList, {L}}.
 
 
 master_process()->
     receive
         {actorList, {L}} ->
-            lists:nth(1, L) ! {message, {"Gossip Message", L}};
+            lists:nth(1, L) ! {message, {"Gossip Message", L}},
+            master_process();
 
-        {AID, {pratik}} ->
-            io:format("Actor ID: ~p ~n", [AID]),
+        {AID, pratik} ->
+            io:format("Actor Done ID: ~p ~n", [AID]),
             master_process()
     end.
+
 
 actor_process(MID, MCR) ->
     receive
         {message, {Message, L}} ->
             counters:add(MCR, 1, 1),
-            V = counters:get(MCR, 1),
-            io:format("Counter: ~p ~n",[V]),
-            case V of
-                1 -> spawn(fun() -> start_gossip(Message, L) end);
-                2->  io:format("2");
-                10 -> io:format("Actor ID: ~p ~n",[self()])
+            case counters:get(MCR, 1) ==1 of
+                true ->  io:format("Counter 1 ~n"),
+                    spawn(fun() -> start_gossip(Message, L) end);
+                false -> nothing
             end,
-            actor_process(MID, MCR)
+            case counters:get(MCR, 1) == 10 of
+                true ->  io:format("Counter 10 ~n"),
+                    MID ! {self(),pratik};
+                false -> nothing
+            end,
+        actor_process(MID, MCR)
     end.
 
+
+
 start_gossip(Message, L)->
+
     lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, L}},
     start_gossip(Message, L).
