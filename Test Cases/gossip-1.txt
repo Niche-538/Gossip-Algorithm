@@ -1,0 +1,181 @@
+$ erl
+Eshell V12.1  (abort with ^G)
+1> c(gossip).
+{ok,gossip}
+2> gossip:start(20, "Full").
+Start Gossip Time: {1665,441973,278916}
+Topology: "Full"
+{actorList,{[<0.86.0>,<0.87.0>,<0.88.0>,<0.89.0>,<0.90.0>,
+             <0.91.0>,<0.92.0>,<0.93.0>,<0.94.0>,<0.95.0>,<0.96.0>,
+             <0.97.0>,<0.98.0>,<0.99.0>,<0.100.0>,<0.101.0>,<0.102.0>,
+             <0.103.0>,<0.104.0>,<0.105.0>]}}
+3> Chosen Actor ID: <0.98.0>
+
+3> Actor ID: <0.87.0>  Recieved Id: <0.86.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,284138}
+3> Actor ID: <0.86.0>  Recieved Id: <0.87.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,284241}
+3> Actor ID: <0.88.0>  Recieved Id: <0.86.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,284343}
+3> Actor ID: <0.102.0>  Recieved Id: <0.86.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,284445}
+3> Actor ID: <0.97.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,284650}
+3> Actor ID: <0.99.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,284753}
+3> Actor ID: <0.96.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,284753}
+3> Actor ID: <0.94.0>  Recieved Id: <0.87.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,284855}
+3> Actor ID: <0.103.0>  Recieved Id: <0.87.0> Message: "Gossip Message"
+3> End Time: {1665,441973,284957}
+3> Actor ID: <0.101.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,284957}
+3> Actor ID: <0.100.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285060}
+3> Actor ID: <0.104.0>  Recieved Id: <0.87.0> Message: "Gossip Message" 
+3> End Time: {1665,441973,285162}
+3> Actor ID: <0.91.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285265}
+3> Actor ID: <0.105.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285265}
+3> Actor ID: <0.95.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285367}
+3> Actor ID: <0.89.0>  Recieved Id: <0.87.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285469}
+3> Actor ID: <0.90.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285572}
+3> Actor ID: <0.93.0>  Recieved Id: <0.87.0> Message: "Gossip Message"
+3> End Time: {1665,441973,285572}
+3> Actor ID: <0.92.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
+3> End Time: {1665,441973,288644}
+3> .
+* 1:1: syntax error before: '.'
+3> gossip:start(20, "Line"). 
+Start Gossip Time: {1665,441984,863325}
+Topology: "Line"
+Chosen Actor ID: <0.147.0>
+
+{actorList,{[<0.129.0>,<0.130.0>,<0.131.0>,<0.132.0>,
+             <0.133.0>,<0.134.0>,<0.135.0>,<0.136.0>,<0.137.0>,<0.138.0>,
+             <0.139.0>,<0.140.0>,<0.141.0>,<0.142.0>,<0.143.0>,<0.144.0>,
+             <0.145.0>,<0.146.0>,<0.147.0>,<0.148.0>]}}
+4> Actor ID: <0.148.0>  Recieved Id: <0.147.0> Message: "Gossip Message"
+4> End Time: {1665,441984,870596}
+4> Actor ID: <0.146.0>  Recieved Id: <0.147.0> Message: "Gossip Message"
+4> End Time: {1665,441984,873975}
+4> Actor ID: <0.145.0>  Recieved Id: <0.146.0> Message: "Gossip Message"
+4> End Time: {1665,441984,876330}
+4> Actor ID: <0.144.0>  Recieved Id: <0.145.0> Message: "Gossip Message"
+4> End Time: {1665,441984,879300}
+4> Actor ID: <0.143.0>  Recieved Id: <0.144.0> Message: "Gossip Message"
+4> End Time: {1665,441984,884727}
+4> Actor ID: <0.142.0>  Recieved Id: <0.143.0> Message: "Gossip Message" 
+4> End Time: {1665,441984,890973}
+4> Actor ID: <0.141.0>  Recieved Id: <0.142.0> Message: "Gossip Message"
+4> End Time: {1665,441984,902545}
+4> Actor ID: <0.140.0>  Recieved Id: <0.141.0> Message: "Gossip Message" 
+4> End Time: {1665,441984,911965}
+4> Actor ID: <0.139.0>  Recieved Id: <0.140.0> Message: "Gossip Message"
+4> End Time: {1665,441984,917802}
+4> Actor ID: <0.138.0>  Recieved Id: <0.139.0> Message: "Gossip Message" 
+4> End Time: {1665,441984,929066}
+4> Actor ID: <0.137.0>  Recieved Id: <0.138.0> Message: "Gossip Message"
+4> End Time: {1665,441984,933572}
+4> Actor ID: <0.136.0>  Recieved Id: <0.137.0> Message: "Gossip Message" 
+4> End Time: {1665,441984,936951}
+4> Actor ID: <0.135.0>  Recieved Id: <0.136.0> Message: "Gossip Message"
+4> End Time: {1665,441984,939409}
+4> Actor ID: <0.134.0>  Recieved Id: <0.135.0> Message: "Gossip Message"
+4> End Time: {1665,441984,947293}
+4> Actor ID: <0.133.0>  Recieved Id: <0.134.0> Message: "Gossip Message"
+4> End Time: {1665,441984,951185}
+4> Actor ID: <0.132.0>  Recieved Id: <0.133.0> Message: "Gossip Message" 
+4> End Time: {1665,441984,954052}
+4> Actor ID: <0.131.0>  Recieved Id: <0.132.0> Message: "Gossip Message"
+4> End Time: {1665,441984,957636}
+4> Actor ID: <0.130.0>  Recieved Id: <0.131.0> Message: "Gossip Message"
+4> End Time: {1665,441984,960913}
+4> Actor ID: <0.129.0>  Recieved Id: <0.130.0> Message: "Gossip Message"
+4> End Time: {1665,441984,964906}
+4> gossip:start(20, "2D").   
+Start Gossip Time: {1665,441992,611729}
+Topology: "2D"
+Chosen Actor ID: <0.171.0>
+
+{actorList,{[<0.171.0>,<0.172.0>,<0.173.0>,<0.174.0>,
+             <0.175.0>,<0.176.0>,<0.177.0>,<0.178.0>,<0.179.0>,<0.180.0>,
+             <0.181.0>,<0.182.0>,<0.183.0>,<0.184.0>,<0.185.0>,<0.186.0>,
+             <0.187.0>,<0.188.0>,<0.189.0>,<0.190.0>]}}
+5> Actor ID: <0.172.0>  Recieved Id: <0.171.0> Message: "Gossip Message"
+5> End Time: {1665,441992,623607}
+5> Actor ID: <0.175.0>  Recieved Id: <0.171.0> Message: "Gossip Message"
+5> End Time: {1665,441992,627089}
+5> Actor ID: <0.176.0>  Recieved Id: <0.172.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,633847}
+5> Actor ID: <0.173.0>  Recieved Id: <0.172.0> Message: "Gossip Message"
+5> End Time: {1665,441992,639786}
+5> Actor ID: <0.179.0>  Recieved Id: <0.175.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,656170}
+5> Actor ID: <0.180.0>  Recieved Id: <0.176.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,667537}
+5> Actor ID: <0.177.0>  Recieved Id: <0.176.0> Message: "Gossip Message"
+5> End Time: {1665,441992,674909}
+5> Actor ID: <0.174.0>  Recieved Id: <0.173.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,698461}
+5> Actor ID: <0.183.0>  Recieved Id: <0.179.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,711876}
+5> Actor ID: <0.184.0>  Recieved Id: <0.180.0> Message: "Gossip Message"
+5> End Time: {1665,441992,722116}
+5> Actor ID: <0.181.0>  Recieved Id: <0.180.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,732253}
+5> Actor ID: <0.178.0>  Recieved Id: <0.177.0> Message: "Gossip Message"
+5> End Time: {1665,441992,739626}
+5> Actor ID: <0.187.0>  Recieved Id: <0.183.0> Message: "Gossip Message"
+5> End Time: {1665,441992,758980}
+5> Actor ID: <0.188.0>  Recieved Id: <0.184.0> Message: "Gossip Message"
+5> End Time: {1665,441992,774033}
+5> Actor ID: <0.185.0>  Recieved Id: <0.181.0> Message: "Gossip Message"
+5> End Time: {1665,441992,782225}
+5> Actor ID: <0.182.0>  Recieved Id: <0.181.0> Message: "Gossip Message" 
+5> End Time: {1665,441992,794410}
+5> Actor ID: <0.189.0>  Recieved Id: <0.188.0> Message: "Gossip Message"
+5> End Time: {1665,441992,797994}
+5> Actor ID: <0.186.0>  Recieved Id: <0.185.0> Message: "Gossip Message"
+5> End Time: {1665,441992,799837}
+5> Actor ID: <0.190.0>  Recieved Id: <0.189.0> Message: "Gossip Message"
+5> End Time: {1665,441992,801578}
+5> gossip:start(20, "imperfect 3D").
+Start Gossip Time: {1665,442001,172471}
+Topology: "imperfect 3D"
+Chosen Actor ID: <0.226.0>
+
+{actorList,{[<0.213.0>,<0.214.0>,<0.215.0>,<0.216.0>,
+             <0.217.0>,<0.218.0>,<0.219.0>,<0.220.0>,<0.221.0>,<0.222.0>,
+             <0.223.0>,<0.224.0>,<0.225.0>,<0.226.0>,<0.227.0>,<0.228.0>,
+             <0.229.0>,<0.230.0>,<0.231.0>,<0.232.0>]}}
+6> Actor ID: <0.222.0>  Recieved Id: <0.226.0> Message: "Gossip Message"
+6> End Time: {1665,442001,183940}
+6> Actor ID: <0.230.0>  Recieved Id: <0.226.0> Message: "Gossip Message"
+6> End Time: {1665,442001,191005}
+6> Actor ID: <0.221.0>  Recieved Id: <0.218.0> Message: "Gossip Message"
+6> End Time: {1665,442001,257565}
+6> Actor ID: <0.219.0>  Recieved Id: <0.223.0> Message: "Gossip Message"
+6> End Time: {1665,442001,272618}
+6> Actor ID: <0.232.0>  Recieved Id: <0.228.0> Message: "Gossip Message"
+6> End Time: {1665,442001,280401}
+6> Actor ID: <0.229.0>  Recieved Id: <0.230.0> Message: "Gossip Message"
+6> End Time: {1665,442001,283677}
+6> Actor ID: <0.220.0>  Recieved Id: <0.215.0> Message: "Gossip Message"
+6> End Time: {1665,442001,287773}
+6> Actor ID: <0.228.0>  Recieved Id: <0.231.0> Message: "Gossip Message"
+6> End Time: {1665,442001,291153}
+6> Actor ID: <0.214.0>  Recieved Id: <0.215.0> Message: "Gossip Message"
+6> End Time: {1665,442001,293917}
+6> Actor ID: <0.224.0>  Recieved Id: <0.215.0> Message: "Gossip Message"
+6> End Time: {1665,442001,296785}
+6> Actor ID: <0.215.0>  Recieved Id: <0.229.0> Message: "Gossip Message"
+6> End Time: {1665,442001,302109}
+6> Actor ID: <0.213.0>  Recieved Id: <0.217.0> Message: "Gossip Message"
+6> End Time: {1665,442001,325969}
+6>
