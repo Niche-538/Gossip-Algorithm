@@ -45,14 +45,21 @@ actor_process(MID, MCR) ->
         {message, {firstMessage, Message, L}}->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
-                true ->  io:format("Counter 1 ~n"),
-                    spawn(fun() -> start_gossip(Message, L, self()) end);
+                true ->  io:format("First 1 ~p ~n", [self()]),
+                    PID = self(),
+                    spawn(fun() -> start_gossip(Message, L, PID) end);
                 false -> nothing
             end;
-        {message, {Message, RAID}} ->
+        {message, {Message, RAID, L}} ->
             counters:add(MCR, 1, 1),
-            case counters:get(MCR, 1) == 10 of
-                true ->  io:format("Counter 10 ~n"),
+            case counters:get(MCR, 1) ==1 of
+                true ->  io:format("Counter 1 ~p ~n", [self()]),
+                    PID = self(),
+                    spawn(fun() -> start_gossip(Message, L, PID) end);
+                false -> nothing
+            end,
+            case counters:get(MCR, 1) == 100 of
+                true ->
                     MID ! {self(), RAID, Message};
                 false -> nothing
             end,
@@ -62,5 +69,6 @@ actor_process(MID, MCR) ->
 
 
 start_gossip(Message, L, RAID)->
-    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID}},
+
+    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID, L}},
     start_gossip(Message, L, RAID).
