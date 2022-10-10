@@ -32,6 +32,7 @@ master_process() ->
     receive
         {actorList, {L}} ->
             Akda = rand:uniform(tail_len(L)),
+            % Akda = 1,
             lists:nth(Akda, L) !
                 {message, {firstMessage, "Gossip Message", L, Akda}},
             master_process();
@@ -82,8 +83,9 @@ line_network(Message, L, RAID, Akda) ->
         true ->
             % Chosen_N = lists:nth(2, L),
             % io:format("Curr ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
+            % NewRAID =
             lists:nth(2, L) ! {message, {Message, RAID, L, 2}},
-            line_network(Message, L, RAID, 2);
+            line_network(Message, L, RAID, Akda);
         false ->
             nothing
     end,
@@ -92,7 +94,7 @@ line_network(Message, L, RAID, Akda) ->
         true ->
             Nid = LLen - 1,
             lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}},
-            line_network(Message, L, RAID, Nid);
+            line_network(Message, L, RAID, Akda);
         false ->
             nothing
     end,
@@ -103,7 +105,7 @@ line_network(Message, L, RAID, Akda) ->
             Chosen_Index = lists:nth(rand:uniform(2), Neighbors_Index),
             Chosen_Neighbor = lists:nth(Chosen_Index, L),
             Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}},
-            line_network(Message, L, RAID, Chosen_Index);
+            line_network(Message, L, RAID, Akda);
         false ->
             nothing
     end.
