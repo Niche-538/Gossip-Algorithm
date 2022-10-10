@@ -31,27 +31,29 @@ start(NumNodes) ->
 master_process()->
     receive
         {actorList, {L}} ->
-            lists:nth(1, L) ! {message, {"Gossip Message", L}},
+            lists:nth(1, L) ! {message, {firstMessage, "Gossip Message", L}},
             master_process();
 
-        {AID, pratik} ->
-            io:format("Actor Done ID: ~p ~n", [AID]),
+        {AID,RAID, Message} ->
+            io:format("Actor ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
             master_process()
     end.
 
 
 actor_process(MID, MCR) ->
     receive
-        {message, {Message, L}} ->
+        {message, {firstMessage, Message, L}}->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
                 true ->  io:format("Counter 1 ~n"),
-                    spawn(fun() -> start_gossip(Message, L) end);
+                    spawn(fun() -> start_gossip(Message, L, self()) end);
                 false -> nothing
-            end,
+            end;
+        {message, {Message, RAID}} ->
+            counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) == 10 of
                 true ->  io:format("Counter 10 ~n"),
-                    MID ! {self(),pratik};
+                    MID ! {self(), RAID, Message};
                 false -> nothing
             end,
         actor_process(MID, MCR)
@@ -59,7 +61,6 @@ actor_process(MID, MCR) ->
 
 
 
-start_gossip(Message, L)->
-
-    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, L}},
-    start_gossip(Message, L).
+start_gossip(Message, L, RAID)->
+    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID}},
+    start_gossip(Message, L, RAID).
