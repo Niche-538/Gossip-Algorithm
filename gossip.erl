@@ -1,8 +1,6 @@
 -module(gossip).
--export([start/1]).
+-export([start_gossip_Algorithm/2]).
 -import(lists, [append/2, reverse/1]).
--import(gossip, [gossip/2]).
--import(push_sum, [push_sum/2]).
 
 tail_len(L) -> tail_len(L, 0).
 tail_len([], Acc) -> Acc;
@@ -18,10 +16,12 @@ generateActors(N, L, MID) ->
         N - 1, [spawn(fun() -> actor_process(MID, counters:new(1, [atomics])) end) | L], MID
     ).
 
-start(NumNodes) ->
-    T = erlang:timestamp(),
-    io:format("Start Time: ~p~n", [T]),
+start_gossip_Algorithm(NumNodes,Topology) ->
 
+    T = erlang:timestamp(),
+    io:format("Start Gossip Time: ~p~n", [T]),
+
+    io:format("Topology: ~p~n", [Topology]),
     %create a masterActor
     MID = spawn(fun() -> master_process() end),
 

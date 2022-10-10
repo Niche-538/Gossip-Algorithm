@@ -34,7 +34,7 @@ start(NumNodes) ->
 master_process()->
     receive
         {actorList, {L}} ->
-            lists:nth(1, L) ! {message, {firstMessage, "Gossip Message", L}},
+            lists:nth(1, L) ! {message, {firstMessage, 50, L}},
             master_process();
 
         {AID,RAID, Message} ->
@@ -47,32 +47,31 @@ master_process()->
 
 actor_process(MID, MCR) ->
     receive
-        {message, {firstMessage, Message, L}}->
+        {message, {firstMessage, S, L}}->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
                 true ->
                     PID = self(),
-                    spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> start_push_sum(S, 1, L, PID) end);
                 false -> nothing
             end;
-        {message, {Message, RAID, L}} ->
+        {message, {S, RAID, L}} ->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
                 true ->
                     PID = self(),
-                    spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> start_push_sum(S, 1, L, PID) end);
                 false -> nothing
             end,
             case counters:get(MCR, 1) == 10 of
                 true ->
-                    MID ! {self(), RAID, Message};
+                    MID ! {self(), RAID, S};
                 false -> nothing
             end,
         actor_process(MID, MCR)
     end.
 
 
-start_gossip(Message, L, RAID)->
-
-    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID, L}},
-    start_gossip(Message, L, RAID).
+start_push_sum(S, W, L, RAID)->
+    lists:nth(rand:uniform(tail_len(L)), L) ! {message, {S, RAID, L}},
+    start_push_sum(S, W, L, RAID).
