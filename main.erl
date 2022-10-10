@@ -1,47 +1,108 @@
 -module(main).
--export([main_process/3, start/1]).
+-export([start/1]).
 -import(lists, [append/2, reverse/1]).
 -import(gossip, [gossip/2]).
 -import(push_sum, [push_sum/2]).
-
-main_process(NumNodes, Topology, Algorithm) ->
-    if
-        Algorithm == "Gossip" ->
-            gossip(NumNodes, Topology);
-        true ->
-            push_sum(NumNodes, Topology)
-    end.
-
-start(Num) ->
-    L = while(s, Num, []),
-    % io:fwrite("List of Actors: ~p~n", [L]),
-    io:fwrite("Len of List: ~p~n", [tail_len(L)]),
-    % M = while(s, 2, L),
-    % io:fwrite("List of Actors: ~p~n", [M]),
-    counter_attempt().
-
-while(s, N, Li) ->
-    while(N, Li).
-
-while(0, L) ->
-    reverse(L);
-while(N, L) ->
-    while(N - 1, [spawn(fun() -> actor_call() end) | L]).
-
-actor_call() ->
-    io:fwrite("").
 
 tail_len(L) -> tail_len(L, 0).
 tail_len([], Acc) -> Acc;
 tail_len([_ | T], Acc) -> tail_len(T, Acc + 1).
 
-counter_attempt() ->
-    MCR = counters:new(1, [atomics]),
-    counters:add(MCR, 1, 1),
-    % X = counters:get(MCR, 1),
-    counters:add(MCR, 1, 1),
-    V = counters:get(MCR, 1),
-    % persistent_term:put(my_counter_ref, MCR),
-    % counters:add(persistent_term:get(my_counter_ref), 1, 9),
-    % V = counters:get(persistent_term:get(my_counter_ref), 1),
-    io:fwrite("Counter Var: ~p~n", [V]).
+generateActors(N, MID) ->
+    generateActors(N, [], MID).
+
+generateActors(0, L, _) ->
+    reverse(L);
+generateActors(N, L, MID) ->
+    generateActors(
+        N - 1, [spawn(fun() -> actor_process(MID, counters:new(1, [atomics])) end) | L], MID
+    ).
+
+start(NumNodes) ->
+    %create a masterActor
+    MID = spawn(fun() -> master_process() end),
+
+    %create actors List
+    L = generateActors(NumNodes, MID),
+
+    %send List to Master
+    MID ! {actorList, {L}}.
+
+master_process() ->
+    receive
+        {actorList, {L}} ->
+            Akda = rand:uniform(tail_len(L)),
+            lists:nth(Akda, L) !
+                {message, {firstMessage, "Gossip Message", L, Akda}},
+            master_process();
+        {AID, RAID, Message} ->
+            io:format("Actor ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
+            master_process()
+    end.
+
+actor_process(MID, MCR) ->
+    receive
+        {message, {firstMessage, Message, L, Akda}} ->
+            counters:add(MCR, 1, 1),
+            case counters:get(MCR, 1) == 1 of
+                true ->
+                    PID = self(),
+                    % spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> line_network(Message, L, PID, Akda) end);
+                false ->
+                    nothing
+            end;
+        {message, {Message, RAID, L, Akda}} ->
+            counters:add(MCR, 1, 1),
+            case counters:get(MCR, 1) == 1 of
+                true ->
+                    PID = self(),
+                    % spawn(fun() -> start_gossip(Message, L, PID) end);
+                    spawn(fun() -> line_network(Message, L, PID, Akda) end);
+                false ->
+                    nothing
+            end,
+            case counters:get(MCR, 1) == 100 of
+                true ->
+                    MID ! {self(), RAID, Message};
+                false ->
+                    nothing
+            end,
+            actor_process(MID, MCR)
+    end.
+
+% start_gossip(Message, L, RAID) ->
+%     lists:nth(rand:uniform(tail_len(L)), L) ! {message, {Message, RAID, L}},
+%     start_gossip(Message, L, RAID).
+
+line_network(Message, L, RAID, Akda) ->
+    LLen = tail_len(L),
+    io:format("Recieved Id in Network: ~p~n", [RAID]),
+    % ID = rand:uniform(LLen),
+    case Akda == 1 of
+        true ->
+            % Chosen_N = lists:nth(2, L),
+            % io:format("Curr ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
+            lists:nth(2, L) ! {message, {Message, RAID, L, 2}};
+        false ->
+            nothing
+    end,
+
+    case Akda == LLen of
+        true ->
+            Nid = LLen - 1,
+            lists:nth(Nid, L) ! {message, {Message, RAID, L, Nid}};
+        false ->
+            nothing
+    end,
+
+    case (Akda > 1) and (Akda < LLen) of
+        true ->
+            Neighbors_Index = [Akda - 1, Akda + 1],
+            Chosen_Index = lists:nth(rand:uniform(2), Neighbors_Index),
+            Chosen_Neighbor = lists:nth(Chosen_Index, L),
+            Chosen_Neighbor ! {message, {Message, RAID, L, Chosen_Index}};
+        false ->
+            nothing
+    end.
+% line_network(Message, L, RAID).
