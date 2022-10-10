@@ -18,6 +18,9 @@ generateActors(N, L, MID) ->
     generateActors(N - 1, [spawn(fun() -> actor_process(MID, counters:new(1, [atomics])) end) | L], MID).
 
 start(NumNodes) ->
+    T = erlang:timestamp(),
+    io:format("Start Time: ~p~n", [T]),
+
     %create a masterActor
     MID = spawn(fun() -> master_process() end),
 
@@ -36,6 +39,8 @@ master_process()->
 
         {AID,RAID, Message} ->
             io:format("Actor ID: ~p  Recieved Id: ~p Message: ~p ~n", [AID, RAID, Message]),
+            T = erlang:timestamp(),
+            io:format("End Time: ~p~n", [T]),
             master_process()
     end.
 
@@ -45,7 +50,7 @@ actor_process(MID, MCR) ->
         {message, {firstMessage, Message, L}}->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
-                true ->  io:format("First 1 ~p ~n", [self()]),
+                true ->
                     PID = self(),
                     spawn(fun() -> start_gossip(Message, L, PID) end);
                 false -> nothing
@@ -53,19 +58,18 @@ actor_process(MID, MCR) ->
         {message, {Message, RAID, L}} ->
             counters:add(MCR, 1, 1),
             case counters:get(MCR, 1) ==1 of
-                true ->  io:format("Counter 1 ~p ~n", [self()]),
+                true ->
                     PID = self(),
                     spawn(fun() -> start_gossip(Message, L, PID) end);
                 false -> nothing
             end,
-            case counters:get(MCR, 1) == 100 of
+            case counters:get(MCR, 1) == 10 of
                 true ->
                     MID ! {self(), RAID, Message};
                 false -> nothing
             end,
         actor_process(MID, MCR)
     end.
-
 
 
 start_gossip(Message, L, RAID)->
