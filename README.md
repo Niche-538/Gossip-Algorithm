@@ -3,8 +3,8 @@
 ## Gossip Algorithm
 
 ### **Group Members-**
-* Anurag Patil
-* Pratik Kamble
+* **Anurag Patil**
+* **Pratik Kamble**
 
 ### Problem Definition
 * Gossip type algorithms can be used both for group communication and for aggregate computation. 
@@ -25,29 +25,37 @@ The Gossip algorithm involves the following:
 * Sum Estimate: At any given moment of time, the sum estimate is s/w where s and w are the current values of an actor.
 * Termination: If an actor's ratio s/w did not change more than 10−10 in 3 consecutive rounds the actor terminates. WARNING: the values s and w independently never converge, only the ratio does.
 
-#### Topologies: 
-The actual network topology plays a critical role in the dissemination speed of Gossip protocols. As part of this project, you have to experiment with various topologies. The topology determines who is considered a neighbor in the above algorithms.
-
-* Full Network: Every actor is a neighbor of all other actors. That is, every actor can talk directly to any other actor.
-* 2D Grid: Actors form a 2D grid. The actors can only talk to the grid neighbors
-* Line: Actors are arranged in a line. Each actor has only 2 neighbors (one left and one right, unless you are the first or last actor).
-* Imperfect 3D Grid: Grid arrangement but one random other neighbor is selected from the list of all actors (8+1 neighbors).
-
 ### Steps to run the code
 * Clone this repository and install erlang.
+* cd Gossip-Algorithm
+* erl
+* c(main_process).
+* main_process:start_main_process(NumNodes, Topology, Algorithm).
+* 3 parameters in the above command are:
+  1. NumNodes : Number of Desired Nodes 
+  2. Topology : One of the following 4 Topologies ["Full", "Line", "2D", "Imperfect 3D"]
+  3. Algorithm: One of the following 2 Algorithms ["Gossip", "Push Sum"]
 
 
 ### Conclusions and Results
 
 1. What is working:
-    1. To do
-    2. To do
-    3. To do
+    1. We have implemented 2 Algorithms, Gossip Algorithm and Push Sum Algorithm as mentioned in the problem definition section above.
+    2. File **gossip.erl** has the Gossip Algorithm and File **push_sum_computation.erl** has the Push Sum Algorithm.
+    3. File **main_process.erl** is the main file where the execution starts.
+    4. Each Algorithm is implemented for 4 Topologies: 
+       1. Full Network: Every actor is a neighbor of all other actors. That is, every actor can talk directly to any other actor.
+       2. 2D Grid: Actors form a 2D grid. The actors can only talk to the grid neighbors
+       3. Line: Actors are arranged in a line. Each actor has only 2 neighbors (one left and one right, unless you are the first or last actor).
+       4. Imperfect 3D Grid: Grid arrangement but one random other neighbor is selected from the list of all actors (8+1 neighbors).
+    5. Please check **gossip-1.txt, gossip-1.txt files, push-sum-1.txt** in Test Case Directory in this Project for verification outputs for each of the above Topologies.
+    6. Sreenshot 1: Snippet of Output for **"Line"** Topology for Gossip Algorithm showing Actor ID and Received Actor ID proving that it is getting message from line neighbors.
+    ![](../../../../Screenshot 2022-10-10 at 22.41.57.png)
+    7. Sreenshot 2: Snippet of Output for **"2D"** Topology for Push Sum Algorithm showing Actor ID and Received Actor ID proving that it is getting message from 2D neighbors.
+   ![](../../../../Screenshot 2022-10-10 at 22.53.15.png)
+    8. In Gossip Algorithm, when each actor receives **10 messages** it stops transmitting. This counter can be easily updated to test for other values.
+    9. In Push Sum Algorithm, **S is initialized to index of the actor and W to 1**.
 
-2. What is the largest network you managed to deal with for each type of topology and algorithm?
-   1. To do
-   2. To To
-  
-3. Report.pdf For each type of topology and algorithm, draw the dependency of convergence time as a function of the size of the network. You can overlap different topologies on the same graph, i.e. you can draw 4 curves, one for each topology, and produce only 2 graphs for the two algorithms. Write about any interesting findings of your experiments in the report as well and mention the team members.
-You can produce Report.pdf in any way you like, for example using spreadsheet software. You might have to use logarithmic scales to have a meaningful plot.
-4. Bonus : In the above assignment, there is no failure at all. For a 30% bonus, implement node and failure models (a node dies,  a connection dies temporarily or permanently). Write a Report-bonus.pdf to explain your findings (how you tested, what experiments you performed, what you observed) and submit project2-bonus.tgz/zip with your code. To get the bonus you must implement at least one failure model controlled by a parameter and draw plots that involve the parameter. At least one interesting observation has to be made based on these plots.
+
+2. The largest network we managed to deal with for each type of topology and algorithm is follows: 
+   ![](../../../../Screenshot 2022-10-10 at 23.05.37.png)
