@@ -61,5 +61,9 @@ The Gossip algorithm involves the following:
 
 2. The largest network we managed to deal with for each type of topology and algorithm is follows: 
   ![Screenshot 2022-10-10 at 23 33 33](https://user-images.githubusercontent.com/54627841/194991180-fe75cdf0-9e16-4b78-b489-5ad21d7afda7.png)
+   1. We used MacBook Air with M1 processor and Lenovo Legion with i7 processor. 
+   2. 3D Imperfect Topology performed best for Gossip Algorithm. 
+   3. Full Network Topology performed best for Push Sum Algorithm. 
+   4. Line Topology performed the worst for both the algorithms.
 
 
