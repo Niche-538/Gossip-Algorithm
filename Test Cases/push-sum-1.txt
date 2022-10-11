@@ -1,0 +1,155 @@
+$ erl
+Eshell V12.1  (abort with ^G)
+1> main_process:start_main_process(5, "Full", "Push Sum").  
+Start Push Sum Time: {1665,456378,944667}
+Topology: "Full"
+{actorList,{[<0.81.0>,<0.82.0>,<0.83.0>,<0.84.0>,<0.85.0>]}}
+2> Chosen Actor ID: <0.83.0>
+
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 3.020368004217744 W: 1.0 
+2> End Time: {1665,456378,953986}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 3.020368004217744 W: 1.0 
+2> End Time: {1665,456378,954088}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 3.008922286127927 W: 1.0 
+2> End Time: {1665,456378,954293}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 3.0022278513422407 W: 1.0 
+2> End Time: {1665,456378,954395}
+2> Actor ID: <0.85.0>  Recieved Id: <0.83.0> S: 2.998604026727236 W: 1.0 
+2> End Time: {1665,456378,954498}
+2> Actor ID: <0.85.0>  Recieved Id: <0.83.0> S: 2.998604026727236 W: 1.0 
+2> End Time: {1665,456378,954600}
+2> Actor ID: <0.83.0>  Recieved Id: <0.83.0> S: 2.9996187661432927 W: 1.0 
+2> End Time: {1665,456378,954703}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 3.001674636897917 W: 1.0 
+2> End Time: {1665,456378,954805}
+2> Actor ID: <0.83.0>  Recieved Id: <0.83.0> S: 2.9996187661432927 W: 1.0 
+2> End Time: {1665,456378,954805}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 2.9998361268372378 W: 1.0 
+2> End Time: {1665,456378,955010}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 2.9998361268372378 W: 1.0 
+2> End Time: {1665,456378,955112}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 2.9998491800502514 W: 1.0 
+2> End Time: {1665,456378,955215}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000003469775693 W: 1.0 
+2> End Time: {1665,456378,955317}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000381387093986 W: 1.0 
+2> End Time: {1665,456378,955419}
+2> Actor ID: <0.83.0>  Recieved Id: <0.83.0> S: 3.000132733831949 W: 1.0 
+2> End Time: {1665,456378,955419}
+2> Actor ID: <0.83.0>  Recieved Id: <0.83.0> S: 2.9999919536839283 W: 1.0 
+2> End Time: {1665,456378,955522}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000423757881354 W: 1.0 
+2> End Time: {1665,456378,955624}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000276618306945 W: 1.0
+2> End Time: {1665,456378,955727}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000151172854057 W: 1.0
+2> End Time: {1665,456378,955829}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000114850688027 W: 1.0
+2> End Time: {1665,456378,955829}
+2> Actor ID: <0.82.0>  Recieved Id: <0.83.0> S: 2.999999999981375 W: 1.0
+2> End Time: {1665,456378,955931}
+2> Actor ID: <0.82.0>  Recieved Id: <0.83.0> S: 2.999999999981375 W: 1.0
+2> End Time: {1665,456378,955931}
+2>
+
+
+
+
+$ erl
+Eshell V12.1  (abort with ^G)
+1> main_process:start_main_process(5, "Line", "Push Sum").  
+Start Push Sum Time: {1665,456248,208088}
+Topology: "Line"
+{actorList,{[<0.81.0>,<0.82.0>,<0.83.0>,<0.84.0>,<0.85.0>]}}
+2> Chosen Actor ID: <0.84.0>
+
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333345033056 W: 1.0 
+2> End Time: {1665,456248,216485}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333345139784 W: 1.0 
+2> End Time: {1665,456248,216587}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333342431652 W: 1.0 
+2> End Time: {1665,456248,216792}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333343135365 W: 1.0 
+2> End Time: {1665,456248,216997}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.833333332741177 W: 1.0 
+2> End Time: {1665,456248,216997}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333342282403 W: 1.0 
+2> End Time: {1665,456248,217202}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.833333333623301 W: 1.0 
+2> End Time: {1665,456248,217304}
+2> Actor ID: <0.81.0>  Recieved Id: <0.84.0> S: 2.83333333388476 W: 1.0 
+2> End Time: {1665,456248,217406}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.833333332697438 W: 1.0 
+2> End Time: {1665,456248,217611}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.833333333072457 W: 1.0 
+2> End Time: {1665,456248,217714}
+2> Actor ID: <0.83.0>  Recieved Id: <0.84.0> S: 2.833333333501579 W: 1.0 
+2> End Time: {1665,456248,217816}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.8333333331662116 W: 1.0 
+2> End Time: {1665,456248,217918}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.8333333333555917 W: 1.0 
+2> End Time: {1665,456248,217918}
+2> Actor ID: <0.85.0>  Recieved Id: <0.84.0> S: 2.833333333188226 W: 1.0 
+2> End Time: {1665,456248,218123}
+2> 
+
+
+
+
+$ erl
+Eshell V12.1  (abort with ^G)
+1> main_process:start_main_process(5, "2D", "Push Sum"). 
+Start Push Sum Time: {1665,456299,307788}
+Topology: "2D"
+{actorList,{[<0.81.0>,<0.82.0>,<0.83.0>,<0.84.0>,<0.85.0>]}}
+2> Chosen Actor ID: <0.84.0>
+
+2> Actor ID: <0.83.0>  Recieved Id: <0.84.0> S: 2.8333333327908 W: 1.0 
+2> End Time: {1665,456299,316288}
+2> Actor ID: <0.81.0>  Recieved Id: <0.84.0> S: 2.83333333370196 W: 1.0 
+2> End Time: {1665,456299,316390}
+2> Actor ID: <0.85.0>  Recieved Id: <0.84.0> S: 2.8333333337656885 W: 1.0 
+2> End Time: {1665,456299,316492}
+2> Actor ID: <0.83.0>  Recieved Id: <0.84.0> S: 2.8333333327819004 W: 1.0 
+2> End Time: {1665,456299,316595}
+2> Actor ID: <0.83.0>  Recieved Id: <0.84.0> S: 2.8333333331229085 W: 1.0 
+2> End Time: {1665,456299,316800}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.833333333320075 W: 1.0 
+2> End Time: {1665,456299,316902}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.833333333127607 W: 1.0 
+2> End Time: {1665,456299,317004}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333333155943 W: 1.0 
+2> End Time: {1665,456299,317107}
+2> Actor ID: <0.82.0>  Recieved Id: <0.84.0> S: 2.8333333332247665 W: 1.0 
+2> End Time: {1665,456299,317209}
+2> Actor ID: <0.84.0>  Recieved Id: <0.84.0> S: 2.8333333331318284 W: 1.0 
+2> End Time: {1665,456299,317209}
+2> 
+
+
+$ erl
+Eshell V12.1  (abort with ^G)
+1> main_process:start_main_process(5, "imperfect 3D", "Push Sum").
+Start Push Sum Time: {1665,456460,244671}
+Topology: "imperfect 3D"
+{actorList,{[<0.81.0>,<0.82.0>,<0.83.0>,<0.84.0>,<0.85.0>]}}
+2> Chosen Actor ID: <0.83.0>
+
+2> Actor ID: <0.83.0>  Recieved Id: <0.83.0> S: 3.044952392578125 W: 1.0 
+2> End Time: {1665,456460,253579}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 2.999970236379491 W: 1.0 
+2> End Time: {1665,456460,253682}
+2> Actor ID: <0.82.0>  Recieved Id: <0.83.0> S: 2.9999821261933217 W: 1.0 
+2> End Time: {1665,456460,253887}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 2.999970236379491 W: 1.0 
+2> End Time: {1665,456460,253989}
+2> Actor ID: <0.85.0>  Recieved Id: <0.83.0> S: 2.999926236320781 W: 1.0 
+2> End Time: {1665,456460,254194}
+2> Actor ID: <0.81.0>  Recieved Id: <0.83.0> S: 2.9999761812864065 W: 1.0 
+2> End Time: {1665,456460,254501}
+2> Actor ID: <0.82.0>  Recieved Id: <0.83.0> S: 2.9999821261933217 W: 1.0 
+2> End Time: {1665,456460,254603}
+2> Actor ID: <0.84.0>  Recieved Id: <0.83.0> S: 3.0000000000067515 W: 1.0 
+2> End Time: {1665,456460,254706}
+2> 
+
