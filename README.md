@@ -50,12 +50,15 @@ The Gossip algorithm involves the following:
        4. Imperfect 3D Grid: Grid arrangement but one random other neighbor is selected from the list of all actors (8+1 neighbors).
     5. Please check **gossip-1.txt, gossip-1.txt files, push-sum-1.txt** in Test Case Directory in this Project for verification outputs for each of the above Topologies.
     6. Sreenshot 1: Snippet of Output for **"Line"** Topology for Gossip Algorithm showing Actor ID and Received Actor ID proving that it is getting message from line neighbors.
-    ![](../../../../Screenshot 2022-10-10 at 22.41.57.png)
+    ![Screenshot 2022-10-10 at 22 41 57](https://user-images.githubusercontent.com/54627841/194988020-50920fd3-6e46-437f-b35c-384e8f8b1c3e.png)
+
     7. Sreenshot 2: Snippet of Output for **"2D"** Topology for Push Sum Algorithm showing Actor ID and Received Actor ID proving that it is getting message from 2D neighbors.
-   ![](../../../../Screenshot 2022-10-10 at 22.53.15.png)
+   ![Screenshot 2022-10-10 at 22 53 15](https://user-images.githubusercontent.com/54627841/194988042-fc11b44a-2d67-4eb1-b8bc-e70b23eb23f2.png)
+
     8. In Gossip Algorithm, when each actor receives **10 messages** it stops transmitting. This counter can be easily updated to test for other values.
     9. In Push Sum Algorithm, **S is initialized to index of the actor and W to 1**.
 
 
 2. The largest network we managed to deal with for each type of topology and algorithm is follows: 
-   ![](../../../../Screenshot 2022-10-10 at 23.05.37.png)
+  <img width="774" alt="Screenshot 2022-10-10 at 23 05 37" src="https://user-images.githubusercontent.com/54627841/194988068-83453201-ec74-4344-ac81-171bacb146ce.png">
+
