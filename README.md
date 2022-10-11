@@ -60,5 +60,6 @@ The Gossip algorithm involves the following:
 
 
 2. The largest network we managed to deal with for each type of topology and algorithm is follows: 
-  <img width="767" alt="Screenshot 2022-10-10 at 23 10 02" src="https://user-images.githubusercontent.com/54627841/194988400-48a4038d-1d4c-416b-949c-a4d3e7e52530.png">
+  ![Screenshot 2022-10-10 at 23 33 33](https://user-images.githubusercontent.com/54627841/194991180-fe75cdf0-9e16-4b78-b489-5ad21d7afda7.png)
+
 
