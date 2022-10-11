@@ -59,7 +59,7 @@ actor_process(MID, MCR) ->
                         "2D" ->
                             spawn(fun() -> grid_2d(Message, L, PID, Index, Topology) end);
                         "imperfect 3D" ->
-                            spawn(fun() -> grid_2d(Message, L, PID, Index, Topology) end)
+                            spawn(fun() -> imperfect_3d(Message, L, PID, Index, Topology) end)
                     end;
                 false ->
                     nothing
