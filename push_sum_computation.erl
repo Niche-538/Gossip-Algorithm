@@ -69,14 +69,77 @@ actor_process(MID, S, W, Change) ->
               Chosen_Neighbor ! {message, {S,W, PID, L, Chosen_Index, Topology}}
           end;
         "2D" ->
-          grid_2d(S,W, L, PID, Index, Topology);
+          LenL = tail_len(L),
+          Up = Index - 4,
+          Down = Index + 4,
+          Left = Index - 1,
+          Right = Index + 1,
+          case Index rem 4 of
+            0 ->
+              Neighbor_IDs = [X || X <- [Up, Down, Left], X > 0, X < LenL + 1],
+              grids_xtra(L, Neighbor_IDs, S,W, PID, Topology);
+            1 ->
+              Neighbor_IDs = [X || X <- [Up, Down, Right], X > 0, X < LenL + 1],
+              grids_xtra(L, Neighbor_IDs, S,W, PID, Topology);
+            _ ->
+              Neighbor_IDs = [X || X <- [Up, Down, Left, Right], X > 0, X < LenL + 1],
+              grids_xtra(L, Neighbor_IDs, S,W, PID, Topology)
+          end;
         "imperfect 3D" ->
-          imperfect_3d(S,W, L, PID, Index, Topology),
+          LenL = tail_len(L),
+          Up = Index - 4,
+          Down = Index + 4,
+          Left = Index - 1,
+          Right = Index + 1,
+          D_UL = Index - 5,
+          D_UR = Index - 3,
+          D_DL = Index + 3,
+          D_DR = Index + 5,
+          case Index rem 4 of
+            0 ->
+              Neighbor_IDs1 = [
+                X
+                || X <- [Up, Down, Left, D_UL, D_DL], X > 0, X < LenL + 1
+              ],
+              Extra_N1 = [
+                Y
+                || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs1) == false
+              ],
+              RN1 = rand:uniform(tail_len(Extra_N1)),
+              Extra_Neighbor1 = [lists:nth(RN1, Extra_N1)],
+              NewNeighborList1 = Neighbor_IDs1 ++ Extra_Neighbor1,
+              grids_xtra(L, NewNeighborList1, S,W, PID, Topology);
+            1 ->
+              Neighbor_IDs2 = [
+                X
+                || X <- [Up, Down, Right, D_UR, D_DR], X > 0, X < LenL + 1
+              ],
+              Extra_N2 = [
+                Y
+                || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs2) == false
+              ],
+              RN2 = rand:uniform(tail_len(Extra_N2)),
+              Extra_Neighbor2 = [lists:nth(RN2, Extra_N2)],
+              NewNeighborList2 = Neighbor_IDs2 ++ Extra_Neighbor2,
+              grids_xtra(L, NewNeighborList2, S,W, PID, Topology);
+            _ ->
+              Neighbor_IDs3 = [
+                X
+                || X <- [Up, Down, Left, Right, D_UL, D_UR, D_DL, D_DR], X > 0, X < LenL + 1
+              ],
+              Extra_N3 = [
+                Y
+                || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs3) == false
+              ],
+              RN3 = rand:uniform(tail_len(Extra_N3)),
+              Extra_Neighbor3 = [lists:nth(RN3, Extra_N3)],
+              NewNeighborList3 = Neighbor_IDs3 ++ Extra_Neighbor3,
+              grids_xtra(L, NewNeighborList3, S,W, PID, Topology)
+          end,
           actor_process(MID, S,W, Change)
         end;
 
     {message, { Sn,Wn, RAID, L, Index, Topology}} ->
-          PID = self(),
           case Topology of
           "Full" ->
             Chosen_IDT = rand:uniform(tail_len(L)),
@@ -97,9 +160,73 @@ actor_process(MID, S, W, Change) ->
                 Chosen_Neighbor ! {message, {(S+Sn)/2,(W+Wn)/2, RAID, L, Chosen_Index, Topology}}
             end;
           "2D" ->
-          grid_2d((S+Sn)/2,(W+Wn)/2, L, PID, Index, Topology);
+            LenL = tail_len(L),
+            Up = Index - 4,
+            Down = Index + 4,
+            Left = Index - 1,
+            Right = Index + 1,
+            case Index rem 4 of
+              0 ->
+                Neighbor_IDs = [X || X <- [Up, Down, Left], X > 0, X < LenL + 1],
+                grids_xtra(L, Neighbor_IDs, (S+Sn)/2,(W+Wn)/2, RAID, Topology);
+              1 ->
+                Neighbor_IDs = [X || X <- [Up, Down, Right], X > 0, X < LenL + 1],
+                grids_xtra(L, Neighbor_IDs, (S+Sn)/2,(W+Wn)/2, RAID, Topology);
+              _ ->
+                Neighbor_IDs = [X || X <- [Up, Down, Left, Right], X > 0, X < LenL + 1],
+                grids_xtra(L, Neighbor_IDs, (S+Sn)/2,(W+Wn)/2, RAID, Topology)
+            end;
           "imperfect 3D" ->
-          imperfect_3d((S+Sn)/2,(W+Wn)/2, L, PID, Index, Topology)
+            LenL = tail_len(L),
+            Up = Index - 4,
+            Down = Index + 4,
+            Left = Index - 1,
+            Right = Index + 1,
+            D_UL = Index - 5,
+            D_UR = Index - 3,
+            D_DL = Index + 3,
+            D_DR = Index + 5,
+            case Index rem 4 of
+              0 ->
+                Neighbor_IDs1 = [
+                  X
+                  || X <- [Up, Down, Left, D_UL, D_DL], X > 0, X < LenL + 1
+                ],
+                Extra_N1 = [
+                  Y
+                  || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs1) == false
+                ],
+                RN1 = rand:uniform(tail_len(Extra_N1)),
+                Extra_Neighbor1 = [lists:nth(RN1, Extra_N1)],
+                NewNeighborList1 = Neighbor_IDs1 ++ Extra_Neighbor1,
+                grids_xtra(L, NewNeighborList1, (S+Sn)/2,(W+Wn)/2, RAID, Topology);
+              1 ->
+                Neighbor_IDs2 = [
+                  X
+                  || X <- [Up, Down, Right, D_UR, D_DR], X > 0, X < LenL + 1
+                ],
+                Extra_N2 = [
+                  Y
+                  || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs2) == false
+                ],
+                RN2 = rand:uniform(tail_len(Extra_N2)),
+                Extra_Neighbor2 = [lists:nth(RN2, Extra_N2)],
+                NewNeighborList2 = Neighbor_IDs2 ++ Extra_Neighbor2,
+                grids_xtra(L, NewNeighborList2, (S+Sn)/2,(W+Wn)/2, RAID, Topology);
+              _ ->
+                Neighbor_IDs3 = [
+                  X
+                  || X <- [Up, Down, Left, Right, D_UL, D_UR, D_DL, D_DR], X > 0, X < LenL + 1
+                ],
+                Extra_N3 = [
+                  Y
+                  || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs3) == false
+                ],
+                RN3 = rand:uniform(tail_len(Extra_N3)),
+                Extra_Neighbor3 = [lists:nth(RN3, Extra_N3)],
+                NewNeighborList3 = Neighbor_IDs3 ++ Extra_Neighbor3,
+                grids_xtra(L, NewNeighborList3, (S+Sn)/2,(W+Wn)/2, RAID, Topology)
+            end
           end,
 
           case abs((Sn/Wn) - (S/W)) < 0.0000000001 of
@@ -118,77 +245,9 @@ actor_process(MID, S, W, Change) ->
   end,
   actor_process(MID, S,W, Change).
 
-grid_2d(S,W, L, RAID, Index, Topology) ->
-  LenL = tail_len(L),
-  Up = Index - 4,
-  Down = Index + 4,
-  Left = Index - 1,
-  Right = Index + 1,
-  case Index rem 4 of
-    0 ->
-      Neighbor_IDs = [X || X <- [Up, Down, Left], X > 0, X < LenL + 1],
-      grids_xtra(L, Neighbor_IDs, S,W, RAID, Topology);
-    1 ->
-      Neighbor_IDs = [X || X <- [Up, Down, Right], X > 0, X < LenL + 1],
-      grids_xtra(L, Neighbor_IDs, S,W, RAID, Topology);
-    _ ->
-      Neighbor_IDs = [X || X <- [Up, Down, Left, Right], X > 0, X < LenL + 1],
-      grids_xtra(L, Neighbor_IDs, S,W, RAID, Topology)
-  end.
 
 grids_xtra(L, NL, S,W, RAID, Topology) ->
   Chosen_ID = lists:nth(rand:uniform(tail_len(NL)), NL),
   Chosen_Nebur = lists:nth(Chosen_ID, L),
   Chosen_Nebur ! {message, {S,W, RAID, L, Chosen_ID, Topology}}.
 
-imperfect_3d(S,W, L, RAID, Index, Topology) ->
-  LenL = tail_len(L),
-  Up = Index - 4,
-  Down = Index + 4,
-  Left = Index - 1,
-  Right = Index + 1,
-  D_UL = Index - 5,
-  D_UR = Index - 3,
-  D_DL = Index + 3,
-  D_DR = Index + 5,
-  case Index rem 4 of
-    0 ->
-      Neighbor_IDs1 = [
-        X
-        || X <- [Up, Down, Left, D_UL, D_DL], X > 0, X < LenL + 1
-      ],
-      Extra_N1 = [
-        Y
-        || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs1) == false
-      ],
-      RN1 = rand:uniform(tail_len(Extra_N1)),
-      Extra_Neighbor1 = [lists:nth(RN1, Extra_N1)],
-      NewNeighborList1 = Neighbor_IDs1 ++ Extra_Neighbor1,
-      grids_xtra(L, NewNeighborList1, S,W, RAID, Topology);
-    1 ->
-      Neighbor_IDs2 = [
-        X
-        || X <- [Up, Down, Right, D_UR, D_DR], X > 0, X < LenL + 1
-      ],
-      Extra_N2 = [
-        Y
-        || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs2) == false
-      ],
-      RN2 = rand:uniform(tail_len(Extra_N2)),
-      Extra_Neighbor2 = [lists:nth(RN2, Extra_N2)],
-      NewNeighborList2 = Neighbor_IDs2 ++ Extra_Neighbor2,
-      grids_xtra(L, NewNeighborList2, S,W, RAID, Topology);
-    _ ->
-      Neighbor_IDs3 = [
-        X
-        || X <- [Up, Down, Left, Right, D_UL, D_UR, D_DL, D_DR], X > 0, X < LenL + 1
-      ],
-      Extra_N3 = [
-        Y
-        || Y <- lists:seq(1, tail_len(L)), lists:member(Y, Neighbor_IDs3) == false
-      ],
-      RN3 = rand:uniform(tail_len(Extra_N3)),
-      Extra_Neighbor3 = [lists:nth(RN3, Extra_N3)],
-      NewNeighborList3 = Neighbor_IDs3 ++ Extra_Neighbor3,
-      grids_xtra(L, NewNeighborList3, S,W, RAID, Topology)
-  end.
