@@ -1,4 +1,4 @@
--module(push_sum_computation).
+-module(push_sum_algorithm).
 -export([start_push_sum_Algorithm/2]).
 -import(lists, [append/2, reverse/1]).
 

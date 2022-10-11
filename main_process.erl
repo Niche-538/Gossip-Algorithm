@@ -1,7 +1,7 @@
 -module(main_process).
 -export([start_main_process/3]).
 -import(gossip, [start_gossip_Algorithm/2]).
--import(push_sum_computation, [start_push_sum_Algorithm/2]).
+-import(push_sum_algorithm, [start_push_sum_Algorithm/2]).
 
 start_main_process(NumNodes, Topology, Algorithm) ->
     case Algorithm of
