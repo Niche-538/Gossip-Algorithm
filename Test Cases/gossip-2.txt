@@ -1,11 +1,5 @@
-$ erl
-Eshell V12.1  (abort with ^G)
-1> c(main_process).  
-{ok,main_process}
-2> main_process:start_main_process(16, "2D", "Gossip").
-** exception error: undefined function gossip:start_gossip_Algorithm/2
-3> c(gossip).       
-{ok,gossip}
+// Gosisp Algorithm - 2D Network
+
 4> main_process:start_main_process(16, "2D", "Gossip").
 Start Gossip Time: {1665,442237,352648}
 Topology: "2D"

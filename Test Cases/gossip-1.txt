@@ -1,7 +1,5 @@
-$ erl
-Eshell V12.1  (abort with ^G)
-1> c(gossip).
-{ok,gossip}
+// Gosisp Algorithm - Full Network
+
 2> gossip:start(20, "Full").
 Start Gossip Time: {1665,441973,278916}
 Topology: "Full"
@@ -49,8 +47,10 @@ Topology: "Full"
 3> End Time: {1665,441973,285572}
 3> Actor ID: <0.92.0>  Recieved Id: <0.86.0> Message: "Gossip Message"
 3> End Time: {1665,441973,288644}
-3> .
-* 1:1: syntax error before: '.'
+
+
+// Gosisp Algorithm - Line Network
+
 3> gossip:start(20, "Line"). 
 Start Gossip Time: {1665,441984,863325}
 Topology: "Line"
@@ -98,6 +98,10 @@ Chosen Actor ID: <0.147.0>
 4> End Time: {1665,441984,960913}
 4> Actor ID: <0.129.0>  Recieved Id: <0.130.0> Message: "Gossip Message"
 4> End Time: {1665,441984,964906}
+
+
+// Gosisp Algorithm - 2D Graph Network
+
 4> gossip:start(20, "2D").   
 Start Gossip Time: {1665,441992,611729}
 Topology: "2D"
@@ -145,6 +149,10 @@ Chosen Actor ID: <0.171.0>
 5> End Time: {1665,441992,799837}
 5> Actor ID: <0.190.0>  Recieved Id: <0.189.0> Message: "Gossip Message"
 5> End Time: {1665,441992,801578}
+
+
+// Gosisp Algorithm - Imperfect 3D Network
+
 5> gossip:start(20, "imperfect 3D").
 Start Gossip Time: {1665,442001,172471}
 Topology: "imperfect 3D"

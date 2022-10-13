@@ -1,5 +1,5 @@
-$ erl
-Eshell V12.1  (abort with ^G)
+// Push-Sum Algorithm - Full Network
+
 1> main_process:start_main_process(5, "Full", "Push Sum").  
 Start Push Sum Time: {1665,456378,944667}
 Topology: "Full"
@@ -53,10 +53,8 @@ Topology: "Full"
 2>
 
 
+// Push-Sum Algorithm - Line Network
 
-
-$ erl
-Eshell V12.1  (abort with ^G)
 1> main_process:start_main_process(5, "Line", "Push Sum").  
 Start Push Sum Time: {1665,456248,208088}
 Topology: "Line"
@@ -94,10 +92,8 @@ Topology: "Line"
 2> 
 
 
+// Push-Sum Algorithm - 2D Grid Network
 
-
-$ erl
-Eshell V12.1  (abort with ^G)
 1> main_process:start_main_process(5, "2D", "Push Sum"). 
 Start Push Sum Time: {1665,456299,307788}
 Topology: "2D"
@@ -127,8 +123,8 @@ Topology: "2D"
 2> 
 
 
-$ erl
-Eshell V12.1  (abort with ^G)
+// Push-Sum Algorithm - Imperfect 3D Network
+
 1> main_process:start_main_process(5, "imperfect 3D", "Push Sum").
 Start Push Sum Time: {1665,456460,244671}
 Topology: "imperfect 3D"
